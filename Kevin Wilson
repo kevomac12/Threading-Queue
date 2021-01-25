@@ -1,0 +1,43 @@
+# include the library for files and such
+import os, shutil
+from os import listdir
+
+
+file = 'ReadCMI'
+#  Inform the user of the purpose of the script.
+note = 'This routine will copy and save drive(s) test data, which ran on Primitive 0, 1, 2, 3 (HVM5).' + '\n'
+
+#  Acquire the rack ,primitive, DUT, & MID designations for use in the script.
+print(note)
+Rack_num: int = int(input('Enter the Rack number (0, 1, 2, 3 (HVM5)): '))
+Primitive_num: int = int(input('\n' + 'Enter the Primitive Unit number: '))
+DUT_num: int = int(input('\n' + 'Enter the DUT number: '))
+MID_num: str = str(input('\n' + 'Enter MID number: '))
+
+#  had to convert to string, to concatenate path statements
+#  rd = str(Rack_num)
+pd = str(Primitive_num)
+dd = str(DUT_num)
+md = str (MID_num)
+
+#  so the *.* is not needed for the directory copy +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+mySourceFolder = 'c:\WeeklyFWRunData\MID' + '\\' + md + "\\"
+myDestinationFolder = "c:" + "\\" + "test_program" + "\\" + "rack0" + "\\" + "primitive" + pd + "\\" + "DUT" + dd + "\\"
+
+#  this function does the copy+move, I learned this code from Jie Jenn on YouTube!
+#  it searches the top level directory and sub-directories
+
+
+for path, dir, files in os.walk(myDestinationFolder):
+# for path, dir, files in os.walk(destfolder):
+    print('The path is %s: ', path)
+    print(files)
+    os.chdir(mySourceFolder)
+    if not os.path.isfile(myDestinationFolder + file):
+    #  if not os.path.isfile(destfolder + file):
+        print('The file is %s: ', file)
+        shutil.copytree('c:\WeeklyFWRunData\MID' + "\\" + md + "\\", myDestinationFolder)
+    os.rename(path + '\\' + file, myDestinationFolder + file)
+    elif os.path.isfile(myDestinationFolder + file):
+        #  os.rename(path + '\\' + file, destfolder + file)
+        shutil.copytree('c:\WeeklyFWRunData\MID' + '\\', myDestinationFolder)
